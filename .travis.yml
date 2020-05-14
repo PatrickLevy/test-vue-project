@@ -1,5 +1,5 @@
 env:
-  - s3_bucket_folder=concat($TRAVIS_BRANCH, "_Latest")
+  - s3_bucket_folder=$TRAVIS_BRANCH #concat($TRAVIS_BRANCH, "_Latest")
 language: node_js
 node_js:
   - "12.7.0"
