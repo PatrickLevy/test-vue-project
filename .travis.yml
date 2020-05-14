@@ -1,6 +1,5 @@
 language: node_js
 node_js:
-  - "node"
   - "12.7.0"
 branches:
   only:
@@ -15,5 +14,6 @@ deploy:
   access_key_id: "AKIAJQ5ES6NDDZ2JVQ6A"
   secret_access_key:
     secure: "SEMBxm1wTo2g62fII7p9Lf+KsvC0FcROntSz9S/QoYeNlk/P0FwO51q2VJMr3XU+9yXPz3aGxuae5N57U0MkHUHhN6D9VYmu4RVHqWSCzorEoAk8xHRqwxdE1Tn6C8XtFT403/Tv6/7987V8YPSwenVqIsrTizCwsZQ7ReUYz/AhKVsFzt9oqLaNob+tXVrQN1JVVisIqSW+Oz4Jw497e9V2So2YKPoNVUVdzbjZqNzR1NJ4AKdkPuYpAgW4iqBd0ls/RtwlP8rgIFzDEPYQZt3UrJdr1ibnsHv7HigkJek13rDBL/yQAQafCGAI+LJhfDhZwwm4QKnBTZjkZXtMVMPlwOyLnCHfeDHzSd3cHpyFVqVGvZFAtAU1PUSbNS2eF9MqKDWEVazZmHJL9k6DpFn31uHNiO7Pu53RDsEp1hOcd2e5Z65dk+ZRNY1r5h5WElcg7wCrpCWXz0oxo2mIRxX+v2qJc61q6if77qPemQMtkzob6afi9K+zYwVFGUrY/YjFAOKdtdF7Lp6cx31rEV4Z6OLqFZWbeyQ27fw4cMMYz/rdL27HRqQJsGkK/Dz1UMJOTYljltRLpg0CfaKQNNIj9z1WalBUgK089KDpxlHqDUcgsijARHioNSu4S+jg4rTYFrTQsfph9TITKXgMfrn0755/RzFyoE2fn2w+siI="
-  bucket: "test-vue-project/newbuild"
+  bucket: "test-vue-project"
   local_dir: dist
+  upload-dir: master
