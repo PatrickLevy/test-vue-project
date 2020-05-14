@@ -19,3 +19,4 @@ deploy:
   bucket: "test-vue-project"
   local_dir: dist
   upload-dir: $s3_bucket_folder
+  acl: public_read

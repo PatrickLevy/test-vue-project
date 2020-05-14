@@ -1,5 +1,5 @@
 const productionConfig = {
-  publicPath: "https://test-vue-project.s3.us-east-2.amazonaws.com/dev/",
+  publicPath: "https://test-vue-project.s3.us-east-2.amazonaws.com/master/",
   // chainWebpack: config => {
   //   if(config.plugins.has('extract-css')) {
   //     const extractCSSPlugin = config.plugin('extract-css')
