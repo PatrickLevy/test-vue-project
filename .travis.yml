@@ -6,7 +6,7 @@ branches:
     - master
 script:
   - "npm run lint"
-  - "npm ci"
+  - "npm install"
   - "npm run build"
 deploy:
   provider: s3
