@@ -21,4 +21,4 @@ deploy:
   local_dir: dist
   upload-dir: $s3_bucket_folder
   acl: public_read
-  skip_cleanup: true
+  skip_cleanup: true # don't delete build results
