@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App yay. The build is served and updated from s3."/>
+    <HelloWorld msg="Welcome to Your Vue.js App yay. The build is served and updated from s3. Here is an update to test caching."/>
   </div>
 </template>
 
