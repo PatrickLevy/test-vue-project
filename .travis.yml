@@ -22,3 +22,4 @@ deploy:
   upload-dir: $TRAVIS_BRANCH #$s3_bucket_folder
   acl: public_read
   skip_cleanup: true # don't delete build results
+  cache_control: no-cache # browser must check with origin server before using its cache, but can still cache
