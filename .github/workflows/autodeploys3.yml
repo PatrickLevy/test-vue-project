@@ -38,8 +38,14 @@ jobs:
         echo Installing dependencies...
         npm ci
 
-    # Lint and Test
+    # Lint
     - name: Linting
       run: |
         echo Linting...
         npm run lint
+
+    # Build
+    - name: Build
+      run: |
+        echo Building...
+        npm run build
