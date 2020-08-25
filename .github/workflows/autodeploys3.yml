@@ -53,11 +53,12 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
+    # Download artifacts from previous job to artifacts directory
     - name: Download a single artifact
       uses: actions/download-artifact@v2
       with:
         name: dist
-        path: artifacts/dist
+        path: artifacts
 
     # Install AWS CLI
     - name: Install AWS CLI
@@ -66,11 +67,10 @@ jobs:
         && unzip awscliv2.zip \
         && sudo ./aws/install
 
-    # Configure AWS CLI
-    # Notes:
+    # Configure AWS CLI:
     #   - Read four required inputs until EOF marker.
     #   - Discard all output to be sure that we don't expose any secrets.
-    #     This probably insn't necessary since GitHub masks secrets, but not a bad thing to do anyway.
+    #     This probably insn't necessary since GitHub masks secrets, but probably not a bad thing to do anyway.
     - name: Configure AWS CLI
       run: |
         aws configure --profile s3-sync-action <<-EOF > /dev/null 2>&1
