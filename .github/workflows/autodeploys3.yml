@@ -52,18 +52,30 @@ jobs:
         && sudo ./aws/install
 
     # Configure AWS CLI
+    # - name: Configure AWS CLI
+    #   run: |
+    #     aws --version
+    #     aws configure --profile s3-sync-action <<-EOF > /dev/null 2>&1
+    #     ${AWS_ACCESS_KEY_ID}
+    #     ${AWS_SECRET_ACCESS_KEY}
+    #     ${AWS_REGION}
+    #     text
+    #     EOF
+
+    # Configure AWS CLI
     - name: Configure AWS CLI
       run: |
+        echo ${AWS_REGION}
         aws --version
-        aws configure --profile s3-sync-action <<-EOF > /dev/null 2>&1
-        ${AWS_ACCESS_KEY_ID}
-        ${AWS_SECRET_ACCESS_KEY}
+        aws configure --profile s3-sync-action
+        123456
+        24681012
         ${AWS_REGION}
         text
         EOF
 
     # Push Build to S3
-    - name: Push build to S3
-      run: aws s3 sync ./dist s3://test-vue-project/test --acl public-read --cache-control no-cache --profile s3-sync-action
+    # - name: Push build to S3
+    #   run: aws s3 sync ./dist s3://test-vue-project/test --acl public-read --cache-control no-cache --profile s3-sync-action
 
         
