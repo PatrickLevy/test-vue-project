@@ -66,7 +66,7 @@ jobs:
     - name: Configure AWS CLI
       run: |
         aws --version
-        aws configure --profile s3-sync-action
+        aws configure --profile s3-sync-action <<-EOF
         ${{ secrets.AWS_ACCESS_KEY_ID }}
         ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         ${{ secrets.AWS_REGION }}
