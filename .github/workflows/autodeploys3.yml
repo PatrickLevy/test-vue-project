@@ -52,27 +52,28 @@ jobs:
         && sudo ./aws/install
 
     # Configure AWS CLI
+    - name: Configure AWS CLI
+      run: |
+        aws --version
+        echo ${{ secrets.AWS_REGION }}
+        aws configure --profile s3-sync-action <<-EOF > /dev/null 2>&1
+        ${{ secrets.AWS_ACCESS_KEY_ID }}
+        ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        ${{ secrets.AWS_REGION }}
+        text
+        EOF
+
+    # Configure AWS CLI
     # - name: Configure AWS CLI
     #   run: |
+    #     echo ${AWS_REGION}
     #     aws --version
-    #     aws configure --profile s3-sync-action <<-EOF > /dev/null 2>&1
-    #     ${AWS_ACCESS_KEY_ID}
-    #     ${AWS_SECRET_ACCESS_KEY}
+    #     aws configure --profile s3-sync-action
+    #     123456
+    #     24681012
     #     ${AWS_REGION}
     #     text
     #     EOF
-
-    # Configure AWS CLI
-    - name: Configure AWS CLI
-      run: |
-        echo ${AWS_REGION}
-        aws --version
-        aws configure --profile s3-sync-action
-        123456
-        24681012
-        ${AWS_REGION}
-        text
-        EOF
 
     # Push Build to S3
     # - name: Push build to S3
