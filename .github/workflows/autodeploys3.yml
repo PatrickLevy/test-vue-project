@@ -13,7 +13,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  build and push to s3:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -63,9 +63,13 @@ jobs:
     #     EOF
 
     # Configure AWS CLI
+    # Notes:
+    #   - Read four required inputs until EOF marker.
+    #   - Discard all output to be sure that we don't expose any secrets.
+    #     This probably insn't necessary since GitHub masks secrets, but not a bad thing to do anyway.
     - name: Configure AWS CLI
       run: |
-        aws configure --profile s3-sync-action <<-EOF
+        aws configure --profile s3-sync-action <<-EOF > /dev/null 2>&1
         ${{ secrets.AWS_ACCESS_KEY_ID }}
         ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         us-east-1
