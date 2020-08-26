@@ -17,7 +17,12 @@ jobs:
       run: npm run lint
 
     - name: Build
+      if: github.ref == 'refs/heads/master'
       run: npm run build
+    
+    - name: Build
+      if: github.ref == 'refs/heads/test'
+      run: echo hello
     
     # Keep contents of dist folder for future jobs
     - name: Archive production artifacts
