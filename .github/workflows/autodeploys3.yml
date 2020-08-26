@@ -1,7 +1,7 @@
 name: Lint, Test, Build, Push to S3
 on:
   push:
-    branches: [ master, test ]
+    branches: [ develop, stable ]
 
 jobs:
   test_and_build:
@@ -16,13 +16,13 @@ jobs:
     - name: Linting
       run: npm run lint
 
-    - name: Build
-      if: github.ref == 'refs/heads/master'
+    - name: Develop Build
+      if: github.ref == 'refs/heads/develop'
       run: npm run build
     
-    - name: Build2
-      if: github.ref == 'refs/heads/test'
-      run: echo hello
+    - name: Stable Build
+      if: github.ref == 'refs/heads/stable'
+      run: npm run build
     
     # Keep contents of dist folder for future jobs
     - name: Archive production artifacts
@@ -67,8 +67,16 @@ jobs:
         text
         EOF
 
-    - name: Push build to S3
+    - name: Push develop build to S3
+      if: github.ref == 'refs/heads/develop'
       working-directory: artifacts
       run: |
         ls -R
-        aws s3 sync ./dist s3://test-vue-project/test --acl public-read --cache-control no-cache --profile s3-sync-action
+        aws s3 sync ./dist s3://test-vue-project/develop --acl public-read --cache-control no-cache --profile s3-sync-action
+
+    - name: Push stable build to S3
+      if: github.ref == 'refs/heads/stable'
+      working-directory: artifacts
+      run: |
+        ls -R
+        aws s3 sync ./dist s3://test-vue-project/stable --acl public-read --cache-control no-cache --profile s3-sync-action
