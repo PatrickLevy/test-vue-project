@@ -1,7 +1,7 @@
 name: Lint, Test, Build, Push to S3
 on:
   push:
-    branches: [ master ]
+    branches: [ master, test ]
 
 jobs:
   test_and_build:
@@ -20,7 +20,7 @@ jobs:
       if: github.ref == 'refs/heads/master'
       run: npm run build
     
-    - name: Build
+    - name: Build2
       if: github.ref == 'refs/heads/test'
       run: echo hello
     
