@@ -1,0 +1,42 @@
+name: Lint, Test, Build, Push to S3
+on:
+  workflow_dispatch:
+    inputs:
+      sourceBucket:
+        description: 'Source s3 bucket'
+        required: true
+      destinationBucket:
+        description: 'Destination s3 bucket'
+        required: true
+
+jobs:
+  # Inspired by: https://github.com/jakejarvis/s3-sync-action
+  sync_s3:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    # Install AWS CLI (v 2.0.42)
+    - name: Install AWS CLI
+      run: |
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.0.42.zip" -o "awscliv2.zip" \
+        && unzip awscliv2.zip \
+        && sudo ./aws/install
+
+    # Configure AWS CLI:
+    #   - Read four required inputs until EOF marker.
+    #   - Discard all output to be sure that we don't expose any secrets. This probably isn't
+    #     necessary since GitHub masks secrets, but probably not a bad thing to do anyway.
+    - name: Configure AWS CLI
+      run: |
+        aws configure --profile s3-sync-action <<-EOF > /dev/null 2>&1
+        ${{ secrets.AWS_ACCESS_KEY_ID }}
+        ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        us-west-1
+        text
+        EOF
+
+    - name: Sync Bucket Contents
+      run: |
+        aws s3 sync s3://${{ github.event.inputs.sourceBucket }} s3://${{ github.event.inputs.destinationBucket }}  --acl public-read --cache-control no-cache --profile s3-sync-action
