@@ -1,0 +1,62 @@
+name: Lint, Test, Build, Push to S3
+on:
+  workflow_dispatch:
+  push:
+    branches: [ develop, stable, add-repository-dispatch ]
+  repository_dispatch:
+    types: [mytest]
+
+jobs:
+  test_and_build:
+    name: Lint, Test and Build App
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Check Node Config
+        run: |
+          node -v
+          npm config set spin false
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit Tests
+        run: npm run test-ci
+
+      - name: Develop Build
+        if: github.ref == 'refs/heads/develop'
+        run: DEPLOY_ENV=dev npm run build
+
+      - name: Stable Build
+        if: github.ref == 'refs/heads/stable'
+        run: DEPLOY_ENV=staging npm run build
+
+      - name: Sandbox Build
+        if: github.ref == 'refs/heads/sandbox'
+        run: DEPLOY_ENV=sandbox npm run build
+
+      - name: Create version.json
+        run: |
+          echo "{ \""commit"\": \""$(git rev-parse HEAD)"\" }" > ./dist/version.json
+
+      # Keep contents of dist folder for future jobs
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: |
+            dist
