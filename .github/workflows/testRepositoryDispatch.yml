@@ -1,13 +1,36 @@
-name: Lint, Test, Build, Push to S3
+name: Repo Dispatch Test Workflow
 on:
   workflow_dispatch:
   push:
     branches: [ develop, stable, add-repository-dispatch ]
   repository_dispatch:
-    types: [mytest]
+    types: [ dev_deploy_complete, staging_deploy_complete ]
 
 jobs:
+  printdevstuff:
+    if: github.event.action == 'dev_deploy_complete'
+    name: Print stuff
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Hello
+        run: |
+          echo "Dev is deployed!"
+
+  printstagingstuff:
+    if: github.event.action == 'staging_deploy_complete'
+    name: Print stuff
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Hello
+        run: |
+          echo "Staging is deployed!"
+
   test_and_build:
+    if: github.event.action == 'dev_deploy_complete'
     name: Lint, Test and Build App
     runs-on: ubuntu-latest
 
